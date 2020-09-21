@@ -1,3 +1,8 @@
+.syntax unified
+.arch armv7-m
+.thumb
+.cpu cortex-m4
+
 .global _start
 
 _start:
