@@ -3,10 +3,14 @@ This is Pierre Gimalac's gitlab repository for the [SE203 `Outils, langages et p
 
 ## Content
 - exercice_makefile
+- td_arm_assembly
 - tp_bare_metal
 
 ### exercice_makefile
 The goal is to write a Makefile for the given project.
+
+### td_arm_assembly
+The goal is to write and execute some arm assembly.
 
 ### tp_bare_metal
 The goal of this tp is to write a bare metal program on a STM32 IoT node microcontroller.
