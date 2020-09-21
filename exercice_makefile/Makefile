@@ -8,13 +8,7 @@
 # the compilation toolchain we use
 CROSSCOMPILE=arm-none-eabi-
 
-# linker
-LD = $(CROSSCOMPILE)ld
-# assembly
-AS = $(CROSSCOMPILE)as
-# compiler
 CC = $(CROSSCOMPILE)gcc
-# rm
 RM = rm
 
 # project libs
@@ -28,14 +22,18 @@ CMODE = -mthumb
 LDFLAGS = -L$(MY_LIBS) $(CMODE)
 # compiler flags
 CFLAGS = -Wall -Werror -g -Og $(CMODE)
-# lib compiler flags (distinct from CLFLAGS)
+# lib compiler flags (distinct from CFLAGS)
 LIBCFLAGS = -g -O2 $(CMODE)
 
 # libraries
 LDLIBS = -lm
 
+# library source files
+LIB_SRCS = $(wildcard $(LIB_DIR)/*.c)
+# library objects files
+LIB_OBJS = $(notdir $(LIB_SRCS:%.c=%.o))
 # source files
-SRCS = $(wildcard *.c) $(wildcard $(LIB_DIR)/*.c)
+SRCS = $(wildcard *.c) $(LIB_SRCS)
 # dependency files
 DEPS = $(SRCS:%.c=%.d)
 # objects files
@@ -48,7 +46,7 @@ all: $(EXE)
 -include $(DEPS)
 
 # special compiler command for lib files
-stubs.o: $(LIB_DIR)/stubs.c
+$(LIB_OBJS): %.o: $(LIB_DIR)/%.c
 	$(CC) $(LIBCFLAGS) -c -o $@ $<
 
 # generates dependency rule file ; must not be displayed
