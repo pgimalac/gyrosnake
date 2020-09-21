@@ -49,7 +49,7 @@ EXE = hello
 
 all: $(EXE)
 
--include $(subst .c,.d,$(SOURCES))
+-include $(subst .c,.d,$(SRCS))
 
 stubs.o: $(LIB_DIR)/stubs.c
 	$(CC) $(LIBCFLAGS) -c -o $@ $^
