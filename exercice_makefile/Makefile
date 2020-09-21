@@ -35,32 +35,30 @@ LIBCFLAGS = -g -O2 $(CMODE)
 LDLIBS = -lm
 
 # source files
-SRCS = $(wildcard *.c)
+SRCS = $(wildcard *.c) $(wildcard $(LIB_DIR)/*.c)
+# dependency files
+DEPS = $(SRCS:%.c=%.d)
 # objects files
-OBJS = $(SRCS:%.c=%.o)
-
-# lib source files
-LIBS_SRCS = $(wildcard $(LIB_DIR)/*.c)
-# lib objects
-LIBS_OBJS = $(notdir $(LIBS_SRCS:%.c=%.o))
-
+OBJS = $(notdir $(SRCS:%.c=%.o))
 # executable name
 EXE = hello
 
 all: $(EXE)
 
--include $(subst .c,.d,$(SRCS))
+-include $(DEPS)
 
+# special compiler command for lib files
 stubs.o: $(LIB_DIR)/stubs.c
-	$(CC) $(LIBCFLAGS) -c -o $@ $^
+	$(CC) $(LIBCFLAGS) -c -o $@ $<
 
+# generates dependency rule file ; must not be displayed
 %.d: %.c
-	$(CC) $(CFLAGS) -M -MF $@ -MP $<
+	@$(CC) $(CFLAGS) -M -MF $@ -MP $<
 
-$(EXE): $(OBJS) $(LIBS_OBJS)
+$(EXE): $(OBJS)
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 clean:
-	$(RM) -f $(OBJS) $(LIBS_OBJS) $(EXE)
+	$(RM) -f $(OBJS) $(DEPS) $(EXE)
 
-.PHONY: all clean
+.PHONY: clean
