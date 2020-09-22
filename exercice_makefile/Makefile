@@ -41,6 +41,9 @@ OBJS = $(notdir $(SRCS:%.c=%.o))
 # executable name
 EXE = hello
 
+$(EXE): $(OBJS)
+	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+
 all: $(EXE)
 
 -include $(DEPS)
@@ -53,10 +56,7 @@ $(LIB_OBJS): %.o: $(LIB_DIR)/%.c
 %.d: %.c
 	@$(CC) $(CFLAGS) -M -MF $@ -MP $<
 
-$(EXE): $(OBJS)
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
-
 clean:
 	$(RM) -f $(OBJS) $(DEPS) $(EXE)
 
-.PHONY: clean
+.PHONY: clean all
