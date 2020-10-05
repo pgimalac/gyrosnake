@@ -3,6 +3,7 @@ CROSSCOMPILE = arm-none-eabi-
 CC = $(CROSSCOMPILE)gcc
 LD = $(CROSSCOMPILE)ld
 AS = $(CROSSCOMPILE)as
+OBJCOPY = $(CROSSCOMPILE)objcopy
 
 SRC = src
 
@@ -12,16 +13,25 @@ GDB = $(CROSSCOMPILE)gdb
 GDB_SERVER = JLinkGDBServer
 ENDIAN = little
 
-CFLAGS = -Wall -Wextra -Werror -g
+ARCH = -mcpu=cortex-m4 -mthumb
+# for floating op
+# -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS = -Wall -Wextra -Werror -g -O0 $(ARCH)
+LDFLAGS = -T ld_ram.lds -nostartfiles
 
-SRCS = $(wildcard $(SRC)/*.c)
+SRCS = $(wildcard $(SRC)/*.c) $(wildcard *.c)
 DEPS = $(SRCS:%.c=%.d)
-OBJS = $(SRCS:%.c=%.o)
+OBJS = $(SRCS:%.c=%.o) crt0.o
 
 EXE = main
+ELF = $(EXE).elf
+IMG = $(EXE).bin
 
-$(EXE): $(OBJS)
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+$(IMG): $(ELF)
+	$(OBJCOPY) -O binary $< $@
+
+$(ELF): $(OBJS) ld_ram.lds
+	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
 
 -include $(DEPS)
 
@@ -32,6 +42,14 @@ gdb_server:
 	$(GDB_SERVER) -device $(DEVICE) -endian $(ENDIAN) -if SWD -speed auto -ir -LocalhostOnly
 
 gdb:
-	$(GDB) $(EXE)
+	$(GDB) $(ELF)
 
-.PHONY: gdb gdb_server
+clean:
+	$(RM) $(OBJS) $(DEPS) $(ELF)
+
+clean-all: clean
+	$(RM) $(IMG)
+
+re: clean-all $(IMG)
+
+.PHONY: gdb gdb_server clean re
