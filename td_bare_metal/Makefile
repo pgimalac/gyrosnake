@@ -12,7 +12,8 @@ GDB = $(CROSSCOMPILE)gdb
 GDB_SERVER = JLinkGDBServer
 ENDIAN = little
 
-CFLAGS = -Wall -Wextra -Werror -g
+ARCH = -mcpu=cortex-m4 -mthumb
+CFLAGS = -Wall -Wextra -Werror -g -O1 $(ARCH)
 
 SRCS = $(wildcard $(SRC)/*.c)
 DEPS = $(SRCS:%.c=%.d)
