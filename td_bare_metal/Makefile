@@ -14,6 +14,8 @@ ENDIAN = little
 
 ARCH = -mcpu=cortex-m4 -mthumb
 CFLAGS = -Wall -Wextra -Werror -g -O1 $(ARCH)
+LDFLAGS = -T ld_ram.lds
+# add -nostdlib ?
 
 SRCS = $(wildcard $(SRC)/*.c)
 DEPS = $(SRCS:%.c=%.d)
