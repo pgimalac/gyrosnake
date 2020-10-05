@@ -29,9 +29,9 @@ SECTIONS {
 
     .bss :
     {
-        _bstart = . ;
+        __bss_start__ = . ;
         *(.bss) *(*COM*);
-        _bend = . ;
+        __bss_end__ = . ;
     } >sram1
 }
 
