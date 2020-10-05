@@ -11,7 +11,9 @@ int fibo(int n) {
 }
 
 int main() {
-    static int n = 8;
+    static int n = 0;
+
+    n = 8;
 
     return fibo(n);
 }

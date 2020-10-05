@@ -16,7 +16,7 @@ ENDIAN = little
 ARCH = -mcpu=cortex-m4 -mthumb
 # for floating op
 # -mfloat-abi=hard -mfpu=fpv4-sp-d16
-CFLAGS = -Wall -Wextra -Werror -g -O1 $(ARCH)
+CFLAGS = -Wall -Wextra -Werror -g -O0 $(ARCH)
 LDFLAGS = -T ld_ram.lds -nostartfiles
 
 SRCS = $(wildcard $(SRC)/*.c) $(wildcard *.c)
