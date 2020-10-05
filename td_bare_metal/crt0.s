@@ -10,4 +10,4 @@ _start:
     bl init_bss
     bl main
 
-_loop:  b _loop
+_exit:  b _exit
