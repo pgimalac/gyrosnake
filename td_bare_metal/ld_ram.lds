@@ -4,20 +4,18 @@ MEMORY {
     sram2 (!rx) : ORIGIN = 0x10000000, LENGTH = 32K
 }
 
-ENTRY(main)
+ENTRY(_start)
 
 SECTIONS {
     .text :
     {
+        crt0.o(.text)
         *(.text)
-        _etext = . ;
     } >sram1
 
     .rodata :
     {
-        _rodata = . ;
         *(.rodata*);
-        _erodata = . ;
     } >sram1
 
     .data :
