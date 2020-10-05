@@ -11,28 +11,28 @@ SECTIONS {
     {
         *(.text)
         _etext = . ;
-    } >ram
+    } >sram1
 
     .rodata :
     {
         _rodata = . ;
         *(.rodata*);
         _erodata = . ;
-    } >ram
+    } >sram1
 
     .data :
     {
         _data = . ;
         *(.data);
         _edata = . ;
-    } >ram
+    } >sram1
 
     .bss :
     {
         _bstart = . ;
         *(.bss) *(*COM*);
         _bend = . ;
-    } >ram
+    } >sram1
 }
 
 _stack = ORIGIN(sram2) + LENGTH(sram2);

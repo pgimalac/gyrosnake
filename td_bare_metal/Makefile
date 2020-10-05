@@ -37,4 +37,12 @@ gdb_server:
 gdb:
 	$(GDB) $(EXE)
 
-.PHONY: gdb gdb_server
+clean:
+	$(RM) $(OBJS) $(DEPS)
+
+clean-all: clean
+	$(RM) $(EXE)
+
+re: clean-all $(EXE)
+
+.PHONY: gdb gdb_server clean re
