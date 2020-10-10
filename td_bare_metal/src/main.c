@@ -1,13 +1,19 @@
 #include "led.h"
 
-int main() {
-    volatile uint32_t *ptr0 = GPIO_B_ADDR;
-    volatile uint32_t *ptr1 = GPIO_B_ADDR + OFFSET_MODER;
-    volatile uint32_t *ptr2 = 0;
+#define WAIT_TIME 10000
 
-    ptr0 = ptr0;
-    ptr1 = ptr1;
-    ptr2 = ptr2;
+int main() {
+    led_init();
+
+    while(1) {
+        led_g_on();
+
+        for(int i = 0; i < WAIT_TIME; i++){}
+
+        led_g_off();
+
+        for(int i = 0; i < WAIT_TIME; i++){}
+    }
 
     return 0;
 }
