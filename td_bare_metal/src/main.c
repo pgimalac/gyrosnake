@@ -1,19 +1,13 @@
-int fibo(int n) {
-    if (n <= 0) {
-        return 0;
-    }
-
-    if (n == 1) {
-        return 1;
-    }
-
-    return fibo(n - 1) + fibo(n - 2);
-}
+#include "led.h"
 
 int main() {
-    static int n = 0;
+    volatile uint32_t *ptr0 = GPIO_B_ADDR;
+    volatile uint32_t *ptr1 = GPIO_B_ADDR + OFFSET_MODER;
+    volatile uint32_t *ptr2 = 0;
 
-    n = 8;
+    ptr0 = ptr0;
+    ptr1 = ptr1;
+    ptr2 = ptr2;
 
-    return fibo(n);
+    return 0;
 }

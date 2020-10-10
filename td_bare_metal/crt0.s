@@ -10,4 +10,5 @@ _start:
     bl init_bss
     bl main
 
-_exit:  b _exit
+_exit:
+    b _exit
