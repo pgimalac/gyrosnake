@@ -4,16 +4,9 @@
 
 int main() {
     led_init();
+    led_g_on();
 
-    while(1) {
-        led_g_on();
-
-        for(int i = 0; i < WAIT_TIME; i++){}
-
-        led_g_off();
-
-        for(int i = 0; i < WAIT_TIME; i++){}
-    }
+    while(1) {}
 
     return 0;
 }
