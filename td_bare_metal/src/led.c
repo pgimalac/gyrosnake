@@ -1,43 +1,33 @@
 #include "led.h"
 
-static void led_init_spec(ptr_t moder, int port, int pin) {
-    // enable GPIO port B clock
-    set_bit(RCC_AHB2ENR, port);
-
-    // set pin 14 of gpio b as output
-    set_as_output(moder, pin);
-}
+#include "stm32l4xx.h"
 
 void led_init() {
-    led_init_spec(&GPIOB_MODER, RCC_AHB2ENR_B, P14);
-    led_init_spec(&GPIOC_MODER, RCC_AHB2ENR_C, P09);
+    enable_clock_gpio(RCC_AHB2ENR_GPIOBEN);
+    set_as_output(&GPIOB->MODER, GPIO_MODER_MODE14_0);
+
+    enable_clock_gpio(RCC_AHB2ENR_GPIOCEN);
+    set_as_output(&GPIOC->MODER, GPIO_MODER_MODE9_0);
 }
 
 void led_b_on() {
-    set_as_output(&GPIOC_MODER, P09);
-    set_bit(GPIOC_BSRR, P09 + 16);
+    set_as_output(&GPIOC->MODER, GPIO_MODER_MODE9_0);
+    SET_BIT(GPIOC->BSRR, GPIO_BSRR_BR9);
 }
 
-void led_b_off() {
-    set_as_input(&GPIOC_MODER, P09);
+void led_b_y_off() {
+    set_as_input(&GPIOC->MODER, GPIO_MODER_MODE9_0);
 }
 
 void led_y_on() {
-    set_as_output(&GPIOC_MODER, P09);
-    set_bit(GPIOC_BSRR, P09);
-}
-
-void led_y_off() {
-    set_as_input(&GPIOC_MODER, P09);
+    set_as_output(&GPIOC->MODER, GPIO_MODER_MODE9_0);
+    SET_BIT(GPIOC->BSRR, GPIO_BSRR_BS9);
 }
 
 void led_g_on() {
-    // GPIOx_BSRR[15:0] to set
-    set_bit(GPIOB_BSRR, P14);
+    SET_BIT(GPIOB->BSRR, GPIO_BSRR_BS14);
 }
 
 void led_g_off() {
-    // GPIOx_BSRR[31:16] to reset
-    // hence + 16
-    set_bit(GPIOB_BSRR, P14 + 16);
+    SET_BIT(GPIOB->BSRR, GPIO_BSRR_BR14);
 }

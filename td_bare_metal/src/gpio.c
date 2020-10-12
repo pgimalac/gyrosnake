@@ -1,19 +1,21 @@
 #include "gpio.h"
 
-void set_as_input(ptr_t gpio_moder, int pin) {
+#include "stm32l4xx.h"
+
+void set_as_input(ptr_t gpio_moder, uint32_t bit_0) {
     uint32_t val = *gpio_moder;
 
-    unset_bit(val, pin * 2 + 1);
-    unset_bit(val, pin * 2);
+    CLEAR_BIT(val, bit_0);
+    CLEAR_BIT(val, bit_0 << 1);
 
     *gpio_moder = val;
 }
 
-void set_as_output(ptr_t gpio_moder, int pin) {
+void set_as_output(ptr_t gpio_moder, uint32_t bit_0) {
     uint32_t val = *gpio_moder;
 
-    unset_bit(val, pin * 2 + 1);
-    set_bit(val, pin * 2);
+    CLEAR_BIT(val, bit_0 << 1);
+    SET_BIT(val, bit_0);
 
     *gpio_moder = val;
 }

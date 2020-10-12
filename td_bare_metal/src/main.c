@@ -1,7 +1,7 @@
 #include "led.h"
 #include "clocks.h"
 
-#define WAIT_TIME 1000000
+#define WAIT_TIME 10000000
 
 void sleep() {
     for (uint32_t i = 0; i < WAIT_TIME; i++)
@@ -13,7 +13,7 @@ int main() {
     led_init();
 
     while(1) {
-        led_b_off();
+        led_b_y_off();
         led_g_on();
 
         sleep();
@@ -23,7 +23,7 @@ int main() {
 
         sleep();
 
-        led_y_off();
+        led_b_y_off();
         led_b_on();
 
         sleep();
