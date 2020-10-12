@@ -34,8 +34,16 @@ void set_as_output(ptr_t gpio_moder, int pin);
 // AHB2 clock enable register
 #define RCC_AHB2ENR ADDR_ADD_OFFSET(RCC_ADDR, 0x4C)
 
-// port B clock
+// for each gpio, the corresponding bit in RCC_AHB2 (to enable the clock)
+#define RCC_AHB2ENR_A 0
 #define RCC_AHB2ENR_B 1
+#define RCC_AHB2ENR_C 2
+#define RCC_AHB2ENR_D 3
+#define RCC_AHB2ENR_E 4
+#define RCC_AHB2ENR_F 5
+#define RCC_AHB2ENR_G 6
+#define RCC_AHB2ENR_H 7
+#define RCC_AHB2ENR_I 8
 
 // GPIO registers
 #define GPIOA_ADDR 0x48000000

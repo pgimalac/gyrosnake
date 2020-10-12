@@ -1,11 +1,16 @@
 #include "led.h"
 
-void led_init() {
+static void led_init_spec(ptr_t moder, int port, int pin) {
     // enable GPIO port B clock
-    set_bit(RCC_AHB2ENR, RCC_AHB2ENR_B);
+    set_bit(RCC_AHB2ENR, port);
 
     // set pin 14 of gpio b as output
-    set_as_output(&GPIOB_MODER, P14);
+    set_as_output(moder, pin);
+}
+
+void led_init() {
+    led_init_spec(&GPIOB_MODER, RCC_AHB2ENR_B, P14);
+    led_init_spec(&GPIOC_MODER, RCC_AHB2ENR_C, P09);
 }
 
 void led_g_on() {
