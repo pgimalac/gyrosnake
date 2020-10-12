@@ -14,14 +14,16 @@ GDB_SERVER = JLinkGDBServer
 ENDIAN = little
 
 ARCH = -mcpu=cortex-m4 -mthumb
-# for floating op
-# -mfloat-abi=hard -mfpu=fpv4-sp-d16
-CFLAGS = -Wall -Wextra -Werror -g -O1 -std=gnu99 -pedantic $(ARCH)
+FLOAT = -mfloat-abi=hard -mfpu=fpv4-sp-d16
+INCLUDE = -ICMSIS/Include/ -ICMSIS/Device/ST/STM32L4xx/Include
+CFLAGS = -Wall -Wextra -Werror -g -O1 -std=gnu99 -pedantic $(ARCH) $(INCLUDE) $(FLOAT)
 LDFLAGS = -T ld_ram.lds -nostartfiles
 
 SRCS = $(wildcard $(SRC)/*.c) $(wildcard *.c)
 DEPS = $(SRCS:%.c=%.d)
-OBJS = $(SRCS:%.c=%.o) crt0.o
+# objs_del are the objects we can delete (needed because we don't have clocks.c)
+OBJS_DEL = $(SRCS:%.c=%.o) crt0.o
+OBJS = $(OBJS_DEL) src/clocks.o
 
 EXE = main
 ELF = $(EXE).elf
@@ -45,7 +47,7 @@ gdb:
 	$(GDB) $(ELF)
 
 clean:
-	$(RM) $(OBJS) $(DEPS) $(ELF)
+	$(RM) $(OBJS_DEL) $(DEPS) $(ELF)
 
 clean-all: clean
 	$(RM) $(IMG)
