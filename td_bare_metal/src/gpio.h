@@ -3,17 +3,29 @@
 
 #include <stdint.h>
 
+// The main pointer type we use
 typedef volatile uint32_t * ptr_t;
 
+/*
+ * Write the gpio_moder register given such as pin is an input.
+ */
 void set_as_input(ptr_t gpio_moder, int pin);
+
+/*
+ * Write the gpio_moder register given such as pin is an output.
+ */
 void set_as_output(ptr_t gpio_moder, int pin);
 
 #define ADDR_ADD_OFFSET(addr, offet) (*(ptr_t)((addr) + (offet)))
 
+// sets the bit of the given variable
 #define set_bit(addr, bit) (addr) |= 1 << (bit)
+// unsets the bit of the given variable
 #define unset_bit(addr, bit) (addr) &= ~(1 << (bit))
 
+// adds the bit in the given integer
 #define add_bit(val, bit) ((val) | (1 << (bit)))
+// removes the bit in the given integer
 #define del_bit(val, bit) ((val) & (~(1 << (bit))))
 
 // RCC register
