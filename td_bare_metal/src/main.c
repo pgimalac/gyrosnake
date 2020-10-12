@@ -2,19 +2,29 @@
 
 #define WAIT_TIME 1000000
 
+void sleep() {
+    for (uint32_t i = 0; i < WAIT_TIME; i++)
+        asm volatile("nop");
+}
+
 int main() {
     led_init();
 
     while(1) {
+        led_b_off();
         led_g_on();
 
-        for (uint32_t i = 0; i < WAIT_TIME; i++)
-            asm volatile("nop");
+        sleep();
 
         led_g_off();
+        led_y_on();
 
-        for (uint32_t i = 0; i < WAIT_TIME; i++)
-            asm volatile("nop");
+        sleep();
+
+        led_y_off();
+        led_b_on();
+
+        sleep();
     }
 
     return 0;

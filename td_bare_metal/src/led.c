@@ -13,6 +13,24 @@ void led_init() {
     led_init_spec(&GPIOC_MODER, RCC_AHB2ENR_C, P09);
 }
 
+void led_b_on() {
+    set_as_output(&GPIOC_MODER, P09);
+    set_bit(GPIOC_BSRR, P09 + 16);
+}
+
+void led_b_off() {
+    set_as_input(&GPIOC_MODER, P09);
+}
+
+void led_y_on() {
+    set_as_output(&GPIOC_MODER, P09);
+    set_bit(GPIOC_BSRR, P09);
+}
+
+void led_y_off() {
+    set_as_input(&GPIOC_MODER, P09);
+}
+
 void led_g_on() {
     // GPIOx_BSRR[15:0] to set
     set_bit(GPIOB_BSRR, P14);
