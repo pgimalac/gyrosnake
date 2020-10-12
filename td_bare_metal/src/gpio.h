@@ -13,14 +13,14 @@ void set_as_output(ptr_t gpio_moder, int pin);
 #define set_bit(addr, bit) (addr) |= 1 << (bit)
 #define unset_bit(addr, bit) (addr) &= ~(1 << (bit))
 
-#define add_bit(val, bit) (val | (1 << (bit)))
-#define del_bit(val, bit) (val & (~(1 << (bit))))
+#define add_bit(val, bit) ((val) | (1 << (bit)))
+#define del_bit(val, bit) ((val) & (~(1 << (bit))))
 
 // RCC register
-#define RCC    (*(ptr_t)0x40021000)
+#define RCC_ADDR 0x40021000
 
 // AHB2 clock enable register
-#define RCC_AHB2ENR ADDR_ADD_OFFSET(RCC, 0x4C)
+#define RCC_AHB2ENR ADDR_ADD_OFFSET(RCC_ADDR, 0x4C)
 
 // port B clock
 #define RCC_AHB2ENR_B 1
@@ -181,21 +181,21 @@ void set_as_output(ptr_t gpio_moder, int pin);
 #define GPIOI_ASCR ADDR_ADD_OFFSET(GPIOI_ADDR, OFFSET_GPIO_ASCR)
 
 // pins
-#define P00 0
-#define P01 1
-#define P02 2
-#define P03 3
-#define P04 4
-#define P05 5
-#define P06 6
-#define P07 7
-#define P08 8
-#define P09 9
-#define P10 10
-#define P11 11
-#define P12 12
-#define P13 13
-#define P14 14
-#define P15 15
+#define P00 0x0
+#define P01 0x1
+#define P02 0x2
+#define P03 0x3
+#define P04 0x4
+#define P05 0x5
+#define P06 0x6
+#define P07 0x7
+#define P08 0x8
+#define P09 0x9
+#define P10 0xa
+#define P11 0xb
+#define P12 0xc
+#define P13 0xd
+#define P14 0xe
+#define P15 0xf
 
 #endif

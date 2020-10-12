@@ -9,8 +9,12 @@ void led_init() {
 }
 
 void led_g_on() {
+    // GPIOx_BSRR[15:0] to set
     set_bit(GPIOB_BSRR, P14);
 }
+
 void led_g_off() {
-    unset_bit(GPIOB_BSRR, P14);
+    // GPIOx_BSRR[31:16] to reset
+    // hence + 16
+    set_bit(GPIOB_BSRR, P14 + 16);
 }
