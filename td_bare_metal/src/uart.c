@@ -37,3 +37,27 @@ void uart_init() {
     // enable USART, sender and receiver
     SET_BIT(USART1->CR1, USART_CR1_TE | USART_CR1_RE | USART_CR1_UE);
 }
+
+void uart_putchar(uint8_t c) {
+    // reference manual page 1340
+    do {
+    } while (!READ_BIT(USART1->ISR, USART_ISR_TXE));
+
+    USART1->TDR |= c;
+
+    do {
+    } while (!READ_BIT(USART1->ISR, USART_ISR_TC));
+}
+
+uint8_t uart_getchar() {
+    // reference manual page 1343
+    // TODO
+}
+
+void uart_puts(const uint8_t *s) {
+    // TODO
+}
+
+void uart_gets(uint8_t *s, size_t size) {
+    // TODO
+}
