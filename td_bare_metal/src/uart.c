@@ -1,6 +1,9 @@
 #include "uart.h"
 
 void uart_init() {
+    // disable UART1
+    CLEAR_BIT(USART1->CR1, USART_CR1_UE);
+
     // set TX as USART
     set_as_alternate(&GPIOB->MODER, GPIO_MODER_MODE6_0, GPIO_MODER_MODE6_1,
                      &GPIOB->AFR[0], GPIO_AFRL_AFSEL6_Pos, GPIO_AF7);
