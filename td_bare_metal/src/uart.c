@@ -51,7 +51,10 @@ void uart_putchar(uint8_t c) {
 
 uint8_t uart_getchar() {
     // reference manual page 1343
-    // TODO
+    do {
+    } while (!READ_BIT(USART1->ISR, USART_ISR_RXNE));
+
+    return (uint8_t)USART1->TDR;
 }
 
 void uart_puts(const uint8_t *s) {
