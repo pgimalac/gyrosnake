@@ -17,7 +17,7 @@ ENDIAN = little
 ARCH = -mcpu=cortex-m4 -mthumb
 FLOAT = -mfloat-abi=hard -mfpu=fpv4-sp-d16
 INCLUDE = -ICMSIS/Include/ -ICMSIS/Device/ST/STM32L4xx/Include
-CFLAGS = -Wall -Wextra -g -O1 -std=gnu99 -pedantic $(ARCH) $(INCLUDE) $(FLOAT) -D$(DEVICE_GEN)
+CFLAGS = -Wall -Wextra -Werror -g -O1 -std=gnu99 -pedantic $(ARCH) $(INCLUDE) $(FLOAT) -D$(DEVICE_GEN)
 LDFLAGS = -T ld_ram.lds -nostartfiles
 
 SRCS = $(wildcard $(SRC)/*.c) $(wildcard *.c)

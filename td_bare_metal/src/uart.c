@@ -59,8 +59,11 @@ uint8_t uart_getchar() {
 
 void uart_puts(const uint8_t *s) {
     // TODO
+    s = s;
 }
 
 void uart_gets(uint8_t *s, size_t size) {
     // TODO
+    s = s;
+    size = size;
 }
