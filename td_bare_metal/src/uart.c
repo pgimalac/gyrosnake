@@ -1,16 +1,19 @@
 #include "uart.h"
 
 void uart_init() {
-    // disable UART1
+    // enable the clock of gpio b
+    enable_clock_gpio(RCC_AHB2ENR_GPIOBEN);
+
+    // disable USART1
     CLEAR_BIT(USART1->CR1, USART_CR1_UE);
 
     // set TX as USART
-    set_as_alternate(&GPIOB->MODER, GPIO_MODER_MODE6_0, GPIO_MODER_MODE6_1,
-                     &GPIOB->AFR[0], GPIO_AFRL_AFSEL6_Pos, GPIO_AF7);
+    GPIOB->MODER = (GPIOB->MODER & ~GPIO_MODER_MODE6_Msk) | GPIO_MODER_MODE6_1;
+    SET_BIT(GPIOB->AFR[0], GPIO_AF7 << GPIO_AFRL_AFSEL6_Pos);
 
     // set RX as USART
-    set_as_alternate(&GPIOB->MODER, GPIO_MODER_MODE7_0, GPIO_MODER_MODE7_1,
-                     &GPIOB->AFR[0], GPIO_AFRL_AFSEL7_Pos, GPIO_AF7);
+    GPIOB->MODER = (GPIOB->MODER & ~GPIO_MODER_MODE7_Msk) | GPIO_MODER_MODE7_1;
+    SET_BIT(GPIOB->AFR[0], GPIO_AF7 << GPIO_AFRL_AFSEL7_Pos);
 
     // enable clock
     SET_BIT(USART1->CR2, USART_CR2_CLKEN);
@@ -29,6 +32,8 @@ void uart_init() {
     // oversampling
     CLEAR_BIT(USART1->CR1, USART_CR1_OVER8);
 
+    // no parity bit
+    CLEAR_BIT(USART1->CR1, USART_CR1_PCE);
     // 8N1 mode
     CLEAR_BIT(USART1->CR1, USART_CR1_M);
     // 1 stop bit
@@ -43,10 +48,10 @@ void uart_putchar(uint8_t c) {
     do {
     } while (!READ_BIT(USART1->ISR, USART_ISR_TXE));
 
-    USART1->TDR |= c;
+    USART1->TDR = c;
 
-    do {
-    } while (!READ_BIT(USART1->ISR, USART_ISR_TC));
+    // do {
+    // } while (!READ_BIT(USART1->ISR, USART_ISR_TC));
 }
 
 uint8_t uart_getchar() {

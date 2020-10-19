@@ -16,9 +16,6 @@ void set_as_input(ptr_t gpio_moder, uint32_t bit_0, uint32_t bit_1);
  */
 void set_as_output(ptr_t gpio_moder, uint32_t bit_0, uint32_t bit_1);
 
-void set_as_alternate(ptr_t gpio_moder, uint32_t bit_0, uint32_t bit_1,
-                      ptr_t afr, uint32_t mask, uint32_t af);
-
 #define enable_clock_gpio(gpio) RCC->AHB2ENR |= (gpio)
 
 #define GPIO_AF0 0x0

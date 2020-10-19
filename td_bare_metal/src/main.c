@@ -12,8 +12,11 @@ void sleep() {
 int main() {
     clocks_init();
     led_init();
+    uart_init();
 
     while (1) {
+        uart_putchar('A');
+
         led_b_y_off();
         led_g_on();
 
