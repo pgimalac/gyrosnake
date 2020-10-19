@@ -73,12 +73,17 @@ uint8_t uart_getchar() {
 }
 
 void uart_puts(const uint8_t *s) {
-    // TODO
-    s = s;
+    while (*s != 0) {
+        uart_putchar(*s);
+        s++;
+    }
 }
 
 void uart_gets(uint8_t *s, size_t size) {
-    // TODO
-    s = s;
-    size = size;
+    size_t i = 0;
+    while (i < size) {
+        s[i] = uart_getchar();
+        i++;
+    }
+    s[i] = 0;
 }
