@@ -15,20 +15,22 @@ int main() {
     uart_init();
 
     while (1) {
-        uart_putchar('A');
+        // uart_putchar('A');
+        uint8_t c = uart_getchar();
+        uart_putchar(c);
 
-        led_b_y_off();
-        led_g_on();
+        // led_b_y_off();
+        // led_g_on();
 
-        sleep();
+        // sleep();
 
-        led_g_off();
-        led_y_on();
+        // led_g_off();
+        // led_y_on();
 
-        sleep();
+        // sleep();
 
-        led_b_y_off();
-        led_b_on();
+        // led_b_y_off();
+        // led_b_on();
 
         sleep();
     }
