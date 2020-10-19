@@ -9,20 +9,16 @@ void sleep() {
         asm volatile("nop");
 }
 
-#define SIZE 4
+#define N 1000
+
 int main() {
     clocks_init();
     uart_init();
 
-    uint8_t buffer[SIZE + 1];
-
-    while (1) {
-        uart_gets(buffer, SIZE);
-
-        uart_puts(buffer);
-
-        sleep();
+    uint32_t sum = 0;
+    for (int i = 0; i < N; i++) {
+        sum += uart_getchar();
     }
 
-    return 0;
+    return sum;
 }
