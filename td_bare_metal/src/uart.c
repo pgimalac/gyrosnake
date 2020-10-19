@@ -77,6 +77,9 @@ void uart_puts(const uint8_t *s) {
         uart_putchar(*s);
         s++;
     }
+
+    do {
+    } while (!READ_BIT(USART1->ISR, USART_ISR_TC));
 }
 
 void uart_gets(uint8_t *s, size_t size) {

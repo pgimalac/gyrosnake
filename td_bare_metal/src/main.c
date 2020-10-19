@@ -9,28 +9,17 @@ void sleep() {
         asm volatile("nop");
 }
 
+#define SIZE 4
 int main() {
     clocks_init();
-    led_init();
     uart_init();
 
+    uint8_t buffer[SIZE + 1];
+
     while (1) {
-        // uart_putchar('A');
-        uint8_t c = uart_getchar();
-        uart_putchar(c);
+        uart_gets(buffer, SIZE);
 
-        // led_b_y_off();
-        // led_g_on();
-
-        // sleep();
-
-        // led_g_off();
-        // led_y_on();
-
-        // sleep();
-
-        // led_b_y_off();
-        // led_b_on();
+        uart_puts(buffer);
 
         sleep();
     }
