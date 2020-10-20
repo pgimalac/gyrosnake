@@ -39,7 +39,7 @@ $(ELF): $(OBJS) ld_ram.lds
 -include $(DEPS)
 
 %.d: %.c
-	@$(CC) $(CFLAGS) -M -MF $@ -MP $<
+	@$(CC) $(CFLAGS) -M -MF $@ -MP $< -MT $(@:%.d=%.o)
 
 gdb_server:
 	$(GDB_SERVER) -device $(DEVICE) -endian $(ENDIAN) -if SWD -speed auto -ir -LocalhostOnly
