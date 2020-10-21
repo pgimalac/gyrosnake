@@ -64,15 +64,23 @@ void matrix_init() {
     GPIOA->OSPEEDR =
         (GPIOA->OSPEEDR & ~GPIO_OSPEEDR_OSPEED3) | GPIO_OSPEEDR_OSPEED3_1;
 
-    SET_BIT(GPIOA->BSRR, GPIO_BSRR_BR2 | GPIO_BSRR_BR3 | GPIO_BSRR_BR4 |
-                             GPIO_BSRR_BR5 | GPIO_BSRR_BR6 | GPIO_BSRR_BR7 |
-                             GPIO_BSRR_BR15);
-    SET_BIT(GPIOB->BSRR, GPIO_BSRR_BR0 | GPIO_BSRR_BR1 | GPIO_BSRR_BR2);
-    SET_BIT(GPIOC->BSRR, GPIO_BSRR_BR3 | GPIO_BSRR_BS4 | GPIO_BSRR_BS5);
+    SB(1);
+    LAT(1);
+    RST(0);
+    SCK(0);
+    SDA(0);
+    C0(0);
+    C1(0);
+    C2(0);
+    C3(0);
+    C4(0);
+    C5(0);
+    C6(0);
+    C7(0);
 
     sleep();
 
-    SET_BIT(GPIOC->BSRR, GPIO_BSRR_BS3);
+    RST(1);
 }
 
 void SB(int x) {
