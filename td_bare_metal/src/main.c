@@ -1,13 +1,7 @@
 #include "clocks.h"
 #include "led.h"
 #include "uart.h"
-
-#define WAIT_TIME 10000000
-
-void sleep() {
-    for (uint32_t i = 0; i < WAIT_TIME; i++)
-        asm volatile("nop");
-}
+#include "utils.h"
 
 #define N 1000
 

@@ -30,7 +30,7 @@ void uart_init() {
     // set serial port speed
     // clock freq = 80MHz, baud = 115200 => USARTDIV = 80000000 / 115200 = 694
     const uint32_t baud = 80000000 / 115200;
-    SET_BIT(USART1->BRR, (uint16_t)baud);
+    USART1->BRR = (uint16_t)baud;
 
     // oversampling
     // CLEAR_BIT(USART1->CR1, USART_CR1_OVER8);
