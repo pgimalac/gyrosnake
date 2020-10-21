@@ -86,13 +86,6 @@ void matrix_init() {
     RST(1);
 
     init_bank0();
-
-    SB(1);
-    for (int i = 0; i < 192; i++) {
-        SDA(1);
-        pulse_SCK();
-    }
-    pulse_LAT();
 }
 
 void SB(int x) {
@@ -234,4 +227,13 @@ void activate_row(int row) {
         7 : C7(1);
         break;
     }
+}
+
+void send_byte(uint8_t val, int bank) {
+    SB(bank);
+    for (int i = 7; i >= 0; i--) {
+        SDA(val & (1 << i));
+        pulse_SCK();
+    }
+    pulse_LAT();
 }
