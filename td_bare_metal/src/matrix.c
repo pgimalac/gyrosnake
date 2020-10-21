@@ -3,6 +3,15 @@
 #include "stm32l4xx.h"
 #include "utils.h"
 
+static void init_bank0() {
+    SB(0);
+    for (int i = 0; i < 144; i++) {
+        SDA(1);
+        pulse_SCK();
+    }
+    pulse_LAT();
+}
+
 void matrix_init() {
     // enable gpio A
     enable_clock_gpio(RCC_AHB2ENR_GPIOAEN);
@@ -69,18 +78,21 @@ void matrix_init() {
     RST(0);
     SCK(0);
     SDA(0);
-    C0(0);
-    C1(0);
-    C2(0);
-    C3(0);
-    C4(0);
-    C5(0);
-    C6(0);
-    C7(0);
 
-    sleep();
+    deactivate_rows();
+
+    sleep(100);
 
     RST(1);
+
+    init_bank0();
+
+    SB(1);
+    for (int i = 0; i < 192; i++) {
+        SDA(1);
+        pulse_SCK();
+    }
+    pulse_LAT();
 }
 
 void SB(int x) {
@@ -172,4 +184,54 @@ void C7(int x) {
         SET_BIT(GPIOA->BSRR, GPIO_BSRR_BS3);
     else
         SET_BIT(GPIOA->BSRR, GPIO_BSRR_BR3);
+}
+
+void pulse_SCK() {
+    SCK(0);
+    sleep(30);
+    SCK(1);
+    sleep(30);
+    SCK(0);
+    sleep(30);
+}
+
+void pulse_LAT() {
+    SCK(1);
+    sleep(30);
+    SCK(0);
+    sleep(30);
+    SCK(1);
+    sleep(30);
+}
+
+void deactivate_rows() {
+    C0(0);
+    C1(0);
+    C2(0);
+    C3(0);
+    C4(0);
+    C5(0);
+    C6(0);
+    C7(0);
+}
+
+void activate_row(int row) {
+    switch (row) {
+        0 : C0(1);
+        break;
+        1 : C1(1);
+        break;
+        2 : C2(1);
+        break;
+        3 : C3(1);
+        break;
+        4 : C4(1);
+        break;
+        5 : C5(1);
+        break;
+        6 : C6(1);
+        break;
+        7 : C7(1);
+        break;
+    }
 }

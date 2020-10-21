@@ -1,5 +1,6 @@
 #include "clocks.h"
 #include "led.h"
+#include "matrix.h"
 #include "uart.h"
 #include "utils.h"
 
@@ -8,11 +9,7 @@
 int main() {
     clocks_init();
     uart_init();
+    matrix_init();
 
-    uint32_t sum = 0;
-    for (int i = 0; i < N; i++) {
-        sum += uart_getchar();
-    }
-
-    return sum;
+    return 0;
 }

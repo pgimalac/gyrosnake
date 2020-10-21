@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-void sleep();
+#include <stdint.h>
+
+void sleep(uint32_t);
 
 #endif

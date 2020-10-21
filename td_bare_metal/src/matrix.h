@@ -31,4 +31,12 @@ void C6(int x);
 
 void C7(int x);
 
+void deactivate_rows();
+
+void activate_row(int row);
+
+void pulse_SCK();
+
+void pulse_LAT();
+
 #endif
