@@ -9,7 +9,7 @@ ENTRY(_start)
 SECTIONS {
     .text :
     {
-        crt0.o(.text)
+        ./crt0.o(.text)
         *(.text)
     } >sram1
 
