@@ -2,14 +2,7 @@
 #include "gpio.h"
 #include "stm32l4xx.h"
 
-static void init_bank0() {
-    SB(0);
-    for (int i = 0; i < 144; i++) {
-        SDA(1);
-        pulse_SCK();
-    }
-    pulse_LAT();
-}
+static void init_bank0() { send_byte((uint8_t)-1, 0); }
 
 void matrix_init() {
     // enable gpio A
@@ -85,6 +78,84 @@ void matrix_init() {
     RST(1);
 
     init_bank0();
+}
+
+void pulse_SCK() {
+    SCK(0);
+    sleep(30);
+    SCK(1);
+    sleep(30);
+    SCK(0);
+    sleep(30);
+}
+
+void pulse_LAT() {
+    SCK(1);
+    sleep(30);
+    SCK(0);
+    sleep(30);
+    SCK(1);
+    sleep(30);
+}
+
+void deactivate_rows() {
+    C0(0);
+    C1(0);
+    C2(0);
+    C3(0);
+    C4(0);
+    C5(0);
+    C6(0);
+    C7(0);
+}
+
+void activate_row(int row) {
+    switch (row) {
+    case 0:
+        C0(1);
+        break;
+    case 1:
+        C1(1);
+        break;
+    case 2:
+        C2(1);
+        break;
+    case 3:
+        C3(1);
+        break;
+    case 4:
+        C4(1);
+        break;
+    case 5:
+        C5(1);
+        break;
+    case 6:
+        C6(1);
+        break;
+    case 7:
+        C7(1);
+        break;
+    }
+}
+
+void mat_set_row(int row, const rgb_color *val) {
+    for (int i = 7; i >= 0; i--) {
+        const rgb_color *col = &val[i];
+        send_byte(col->b, 1);
+        send_byte(col->g, 1);
+        send_byte(col->r, 1);
+    }
+    pulse_LAT();
+    activate_row(row);
+}
+
+void send_byte(uint8_t val, int bank) {
+    SB(bank);
+    for (int i = 7; i >= 0; i--) {
+        SDA(val & (1 << i));
+        pulse_SCK();
+    }
+    pulse_LAT();
 }
 
 void SB(int x) {
@@ -176,82 +247,4 @@ void C7(int x) {
         SET_BIT(GPIOA->BSRR, GPIO_BSRR_BS3);
     else
         SET_BIT(GPIOA->BSRR, GPIO_BSRR_BR3);
-}
-
-void pulse_SCK() {
-    SCK(0);
-    sleep(30);
-    SCK(1);
-    sleep(30);
-    SCK(0);
-    sleep(30);
-}
-
-void pulse_LAT() {
-    SCK(1);
-    sleep(30);
-    SCK(0);
-    sleep(30);
-    SCK(1);
-    sleep(30);
-}
-
-void deactivate_rows() {
-    C0(0);
-    C1(0);
-    C2(0);
-    C3(0);
-    C4(0);
-    C5(0);
-    C6(0);
-    C7(0);
-}
-
-void activate_row(int row) {
-    switch (row) {
-    case 0:
-        C0(1);
-        break;
-    case 1:
-        C1(1);
-        break;
-    case 2:
-        C2(1);
-        break;
-    case 3:
-        C3(1);
-        break;
-    case 4:
-        C4(1);
-        break;
-    case 5:
-        C5(1);
-        break;
-    case 6:
-        C6(1);
-        break;
-    case 7:
-        C7(1);
-        break;
-    }
-}
-
-void mat_set_row(int row, const rgb_color *val) {
-    for (int i = 7; i >= 0; i--) {
-        const rgb_color *col = &val[i];
-        send_byte(col->b, 1);
-        send_byte(col->g, 1);
-        send_byte(col->r, 1);
-    }
-    activate_row(row);
-    pulse_LAT();
-}
-
-void send_byte(uint8_t val, int bank) {
-    SB(bank);
-    for (int i = 7; i >= 0; i--) {
-        SDA(val & (1 << i));
-        pulse_SCK();
-    }
-    pulse_LAT();
 }

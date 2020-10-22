@@ -9,7 +9,10 @@ void sleep(uint32_t ns) {
     // 12:   d1fa        bne.n   a <sleep+0xa>
 
     // F=8000000Hz and 1/80000000 = 12.5 ns
-    // so each loop turn takes 60ns
+    // so each loop turn takes 60ns (or 72 ?)
+
+    // but after a hand made measure, 200 is better (because of gdb ?)
+    // better wait to much than not enough so we use 60
     for (uint32_t i = 0; i < ns / 60 + 1; i++)
         asm volatile("nop");
 }
