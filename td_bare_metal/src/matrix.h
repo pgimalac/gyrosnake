@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include "stm32l4xx.h"
+#include "utils.h"
 
 void matrix_init();
 

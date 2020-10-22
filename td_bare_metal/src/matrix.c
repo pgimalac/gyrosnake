@@ -1,7 +1,6 @@
 #include "matrix.h"
 #include "gpio.h"
 #include "stm32l4xx.h"
-#include "utils.h"
 
 static void init_bank0() {
     SB(0);
@@ -210,30 +209,39 @@ void deactivate_rows() {
 
 void activate_row(int row) {
     switch (row) {
-        0 : C0(1);
+    case 0:
+        C0(1);
         break;
-        1 : C1(1);
+    case 1:
+        C1(1);
         break;
-        2 : C2(1);
+    case 2:
+        C2(1);
         break;
-        3 : C3(1);
+    case 3:
+        C3(1);
         break;
-        4 : C4(1);
+    case 4:
+        C4(1);
         break;
-        5 : C5(1);
+    case 5:
+        C5(1);
         break;
-        6 : C6(1);
+    case 6:
+        C6(1);
         break;
-        7 : C7(1);
+    case 7:
+        C7(1);
         break;
     }
 }
 
 void mat_set_row(int row, const rgb_color *val) {
     for (int i = 7; i >= 0; i--) {
-        send_byte(val[i]->b, 1);
-        send_byte(val[i]->g, 1);
-        send_byte(val[i]->r, 1);
+        const rgb_color *col = &val[i];
+        send_byte(col->b, 1);
+        send_byte(col->g, 1);
+        send_byte(col->r, 1);
     }
     activate_row(row);
     pulse_LAT();
