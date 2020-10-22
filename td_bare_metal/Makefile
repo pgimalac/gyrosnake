@@ -49,7 +49,7 @@ gdb_server:
 	$(GDB_SERVER) -device $(DEVICE) -endian $(ENDIAN) -if SWD -speed auto -ir -LocalhostOnly
 
 gdb:
-	$(GDB) $(ELF)
+	$(DB) $(ELF)
 
 clean:
 	$(RM) $(OBJS_GEN) $(DEPS) $(ELF)
