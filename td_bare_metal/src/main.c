@@ -45,18 +45,9 @@ int main() {
 
     SB(1);
     for (int j = 0; j < 8; j++) {
-        for (int i = 0; i < 8; i++) {
-            SDA(0);
-            pulse_SCK();
-        }
-        for (int i = 0; i < 8; i++) {
-            SDA(0);
-            pulse_SCK();
-        }
-        for (int i = 0; i < 8; i++) {
-            SDA(1);
-            pulse_SCK();
-        }
+        send_byte(0, 1);
+        send_byte(0, 1);
+        send_byte(1, 1);
     }
     pulse_LAT();
 
