@@ -139,14 +139,13 @@ void activate_row(int row) {
 }
 
 void mat_set_row(int row, const rgb_color *val) {
+    activate_row(row);
     for (int i = 7; i >= 0; i--) {
-        const rgb_color *col = &val[i];
-        send_byte(col->b, 1);
-        send_byte(col->g, 1);
-        send_byte(col->r, 1);
+        send_byte(val[i].b, 1);
+        send_byte(val[i].g, 1);
+        send_byte(val[i].r, 1);
     }
     pulse_LAT();
-    activate_row(row);
 }
 
 void send_byte(uint8_t val, int bank) {
