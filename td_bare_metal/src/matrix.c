@@ -144,6 +144,8 @@ void mat_set_row(int row, const rgb_color *val) {
         send_byte(val[i].g, 1);
         send_byte(val[i].r, 1);
     }
+    deactivate_rows();
+    sleep(100);
     pulse_LAT();
     activate_row(row);
 }

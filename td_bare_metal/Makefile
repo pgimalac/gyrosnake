@@ -26,8 +26,8 @@ SRCS_c = $(foreach DIR, $(DIRS), $(wildcard $(DIR)/*.c))
 SRCS_s = $(foreach DIR, $(DIRS), $(wildcard $(DIR)/*.s))
 SRCS_S = $(foreach DIR, $(DIRS), $(wildcard $(DIR)/*.S))
 DEPS = $(SRCS_c:%.c=%.d)
-# objs_del are the objects we can delete (needed because we don't have clocks.c)
-OBJS_GEN = $(SRCS_c:%.c=%.o) $(SRCS_s:%.s=%.o) $(SRCS_S:%.S=%.o)
+# objs_gen are the objects we can delete (needed because we don't have clocks.c)
+OBJS_GEN = $(SRCS_c:%.c=%.o) $(SRCS_s:%.s=%.o) $(SRCS_S:%.S=%.o) image.o
 OBJS = $(OBJS_GEN) src/clocks.o
 
 EXE = main
@@ -58,5 +58,8 @@ clean-all: clean
 	$(RM) $(IMG)
 
 re: clean-all $(IMG)
+
+image.o: image.raw
+	$(OBJCOPY) -I binary -O elf32-littlearm -B armv7 $< $@
 
 .PHONY: gdb gdb_server clean re
