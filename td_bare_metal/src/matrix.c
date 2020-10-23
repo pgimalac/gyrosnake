@@ -73,7 +73,7 @@ void matrix_init() {
 
     deactivate_rows();
 
-    sleep(500);
+    sleep(100);
 
     RST(1);
 
@@ -82,58 +82,58 @@ void matrix_init() {
 
 void pulse_SCK() {
     SCK(0);
-    sleep(100);
+    sleep(30);
     SCK(1);
-    sleep(100);
+    sleep(30);
     SCK(0);
-    sleep(100);
+    sleep(30);
 }
 
 void pulse_LAT() {
     LAT(1);
-    sleep(100);
+    sleep(30);
     LAT(0);
-    sleep(100);
+    sleep(30);
     LAT(1);
-    sleep(100);
+    sleep(30);
 }
 
 void deactivate_rows() {
-    C0(0);
-    C1(0);
-    C2(0);
-    C3(0);
-    C4(0);
-    C5(0);
-    C6(0);
-    C7(0);
+    ROW0(0);
+    ROW1(0);
+    ROW2(0);
+    ROW3(0);
+    ROW4(0);
+    ROW5(0);
+    ROW6(0);
+    ROW7(0);
 }
 
 void activate_row(int row) {
     switch (row) {
     case 0:
-        C0(1);
+        ROW0(1);
         break;
     case 1:
-        C1(1);
+        ROW1(1);
         break;
     case 2:
-        C2(1);
+        ROW2(1);
         break;
     case 3:
-        C3(1);
+        ROW3(1);
         break;
     case 4:
-        C4(1);
+        ROW4(1);
         break;
     case 5:
-        C5(1);
+        ROW5(1);
         break;
     case 6:
-        C6(1);
+        ROW6(1);
         break;
     case 7:
-        C7(1);
+        ROW7(1);
         break;
     }
 }
