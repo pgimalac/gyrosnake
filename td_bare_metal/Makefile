@@ -48,7 +48,7 @@ $(ELF): $(OBJS) ld_ram.lds
 gdb_server:
 	$(GDB_SERVER) -device $(DEVICE) -endian $(ENDIAN) -if SWD -speed auto -ir -LocalhostOnly
 
-gdb:
+gdb: $(ELF)
 	$(DB) $(ELF)
 
 clean:
