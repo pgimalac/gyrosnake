@@ -19,7 +19,7 @@ ARCH = -mcpu=cortex-m4 -mthumb
 ASFLAGS = -g
 CPPFLAGS = -D$(DEVICE_GEN) -ICMSIS/Include/ -ICMSIS/Device/ST/STM32L4xx/Include
 FLOAT = -mfloat-abi=hard -mfpu=fpv4-sp-d16
-CFLAGS = -Wall -Wextra -Werror -g -O1 -std=gnu99 -pedantic $(ARCH) $(FLOAT)
+CFLAGS = -Wall -Wextra -Werror -g -O1 -std=gnu99 $(ARCH) $(FLOAT)
 LDFLAGS = -T ld_ram.lds -nostartfiles
 
 SRCS_c = $(foreach DIR, $(DIRS), $(wildcard $(DIR)/*.c))

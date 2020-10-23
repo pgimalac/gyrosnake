@@ -1,7 +1,5 @@
-#include <stdint.h>
-
-#include "handlers.h"
 #include "irq.h"
+#include "handlers.h"
 
 #define VTOR (*(volatile uint32_t *)0xE000ED08)
 #define NVIC_ISER (*(volatile uint32_t *)0xE000E100)
@@ -34,19 +32,21 @@ void *vector_table[] __attribute__((section(".vectors"))) = {
     SysTick_Handler,          /* SysTick handler */
 
     // External interrupts
-    GPIOA_IRQHandler, GPIOB_IRQHandler, GPIOC_IRQHandler, GPIOD_IRQHandler,
-    GPIOE_IRQHandler, UART0_IRQHandler, UART1_IRQHandler, SSI0_IRQHandler,
-    I2C0_IRQHandler, PWMFault_IRQHandler, PWMGen0_IRQHandler,
-    PWMGen1_IRQHandler, PWMGen2_IRQHandler, QEI0_IRQHandler,
-    ADC0Seq0_IRQHandler, ADC0Seq1_IRQHandler, ADC0Seq2_IRQHandler,
-    ADC0Seq3_IRQHandler, WDTimer0_IRQHandler, Timer0A_IRQHandler,
-    Timer0B_IRQHandler, Timer1A_IRQHandler, Timer1B_IRQHandler,
-    Timer2A_IRQHandler, Timer2B_IRQHandler, AnalogCmp0_IRQHandler,
-    AnalogCmp1_IRQHandler, 0, SC_IRQHandler, FMC_IRQHandler, GPIOF_IRQHandler,
-    GPIOG_IRQHandler, 0, UART2_IRQHandler, 0, Timer3A_IRQHandler,
-    Timer3B_IRQHandler, I2C1_IRQHandler, QEI1_IRQHandler, 0, 0, 0,
-    Ethernet_IRQHandler, Hibernation_IRQHandler};
-
-extern char _irq_table;
-
-void irq_init() { VTOR = (uint32_t)&_irq_table; }
+    GPIOA_IRQHandler, (void *)GPIOB_IRQHandler, (void *)GPIOC_IRQHandler,
+    (void *)GPIOD_IRQHandler, (void *)GPIOE_IRQHandler,
+    (void *)UART0_IRQHandler, (void *)UART1_IRQHandler, (void *)SSI0_IRQHandler,
+    (void *)I2C0_IRQHandler, (void *)PWMFault_IRQHandler,
+    (void *)PWMGen0_IRQHandler, (void *)PWMGen1_IRQHandler,
+    (void *)PWMGen2_IRQHandler, (void *)QEI0_IRQHandler,
+    (void *)ADC0Seq0_IRQHandler, (void *)ADC0Seq1_IRQHandler,
+    (void *)ADC0Seq2_IRQHandler, (void *)ADC0Seq3_IRQHandler,
+    (void *)WDTimer0_IRQHandler, (void *)Timer0A_IRQHandler,
+    (void *)Timer0B_IRQHandler, (void *)Timer1A_IRQHandler,
+    (void *)Timer1B_IRQHandler, (void *)Timer2A_IRQHandler,
+    (void *)Timer2B_IRQHandler, (void *)AnalogCmp0_IRQHandler,
+    (void *)AnalogCmp1_IRQHandler, (void *)0, (void *)SC_IRQHandler,
+    (void *)FMC_IRQHandler, (void *)GPIOF_IRQHandler, (void *)GPIOG_IRQHandler,
+    (void *)0, (void *)UART2_IRQHandler, (void *)0, (void *)Timer3A_IRQHandler,
+    (void *)Timer3B_IRQHandler, (void *)I2C1_IRQHandler,
+    (void *)QEI1_IRQHandler, (void *)0, (void *)0, (void *)0,
+    (void *)Ethernet_IRQHandler, (void *)Hibernation_IRQHandler};
