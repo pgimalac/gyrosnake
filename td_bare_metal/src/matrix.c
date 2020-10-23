@@ -73,7 +73,7 @@ void matrix_init() {
 
     deactivate_rows();
 
-    sleep(100);
+    sleep(500);
 
     RST(1);
 
@@ -82,20 +82,20 @@ void matrix_init() {
 
 void pulse_SCK() {
     SCK(0);
-    sleep(30);
+    sleep(100);
     SCK(1);
-    sleep(30);
+    sleep(100);
     SCK(0);
-    sleep(30);
+    sleep(100);
 }
 
 void pulse_LAT() {
-    SCK(1);
-    sleep(30);
-    SCK(0);
-    sleep(30);
-    SCK(1);
-    sleep(30);
+    LAT(1);
+    sleep(100);
+    LAT(0);
+    sleep(100);
+    LAT(1);
+    sleep(100);
 }
 
 void deactivate_rows() {
@@ -139,13 +139,13 @@ void activate_row(int row) {
 }
 
 void mat_set_row(int row, const rgb_color *val) {
-    activate_row(row);
     for (int i = 7; i >= 0; i--) {
         send_byte(val[i].b, 1);
         send_byte(val[i].g, 1);
         send_byte(val[i].r, 1);
     }
     pulse_LAT();
+    activate_row(row);
 }
 
 void send_byte(uint8_t val, int bank) {
