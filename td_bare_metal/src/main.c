@@ -48,7 +48,9 @@ int main() {
     clocks_init();
     matrix_init();
 
-    test_pixels();
+    while (1) {
+        test_pixels();
+    }
 
     return 0;
 }
