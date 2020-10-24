@@ -2,9 +2,9 @@
 #include "gpio.h"
 #include "stm32l4xx.h"
 
-static void init_bank0() {
+static void init_bank(int x) {
     for (int i = 0; i < 24; i++) {
-        send_byte((uint8_t)-1, 0);
+        send_byte((uint8_t)-1, x);
     }
     pulse_LAT();
 }
@@ -82,7 +82,8 @@ void matrix_init() {
 
     RST(1);
 
-    init_bank0();
+    init_bank(0);
+    init_bank(1);
 }
 
 void pulse_SCK() {
