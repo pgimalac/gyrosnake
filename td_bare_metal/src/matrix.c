@@ -2,7 +2,12 @@
 #include "gpio.h"
 #include "stm32l4xx.h"
 
-static void init_bank0() { send_byte((uint8_t)-1, 0); }
+static void init_bank0() {
+    for (int i = 0; i < 24; i++) {
+        send_byte((uint8_t)-1, 0);
+    }
+    pulse_LAT();
+}
 
 void matrix_init() {
     // enable gpio A
@@ -73,7 +78,7 @@ void matrix_init() {
 
     deactivate_rows();
 
-    sleep(100);
+    sleep(100000000);
 
     RST(1);
 
@@ -93,9 +98,8 @@ void pulse_LAT() {
     LAT(1);
     sleep(30);
     LAT(0);
-    sleep(30);
+    sleep(10);
     LAT(1);
-    sleep(30);
 }
 
 void deactivate_rows() {
@@ -144,9 +148,9 @@ void mat_set_row(int row, const rgb_color *val) {
         send_byte(val[i].g, 1);
         send_byte(val[i].r, 1);
     }
-    deactivate_rows();
-    sleep(100);
     pulse_LAT();
+
+    deactivate_rows();
     activate_row(row);
 }
 
