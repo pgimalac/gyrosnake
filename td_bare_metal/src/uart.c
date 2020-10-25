@@ -61,10 +61,10 @@ void uart_putchar(uint8_t c) {
 uint8_t uart_getchar() {
     // reference manual page 1343
     while (!READ_BIT(USART1->ISR, USART_ISR_RXNE)) {
-        if (READ_BIT(USART1->ISR, USART_ISR_FE | USART_ISR_ORE)) {
-            // explicitly loop if framing error or overrun error
-            do {
-            } while (1);
+    }
+
+    if (READ_BIT(USART1->ISR, USART_ISR_ORE | USART_ISR_FE)) {
+        while (1) {
         }
     }
 
