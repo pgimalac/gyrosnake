@@ -73,10 +73,7 @@ int main() {
     clocks_init();
     matrix_init();
 
-    while (1) {
-        test_pixels();
-    }
-    // display_img();
+    display_img();
 
     return 0;
 }
