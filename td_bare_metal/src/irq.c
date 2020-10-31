@@ -10,7 +10,7 @@
 extern uint32_t *_stack;
 extern void _start();
 
-void *vector_table[] __attribute__((section(".vectors"))) = {
+void *vector_table[] = {
     // Stack and Reset Handler
     &_stack, /* Top of stack */
     _start,  /* Reset handler */
@@ -120,3 +120,7 @@ void *vector_table[] __attribute__((section(".vectors"))) = {
     RNG_IRQHandler,           /*!< RNG global interrupt */
     FPU_IRQHandler            /*!< FPU global interrupt */
 };
+
+void irq_init() { // Relocate VTOR table
+    VTOR = (uint32_t)vector_table;
+}

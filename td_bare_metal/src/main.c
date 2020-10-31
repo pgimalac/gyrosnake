@@ -1,8 +1,8 @@
 #include "clocks.h"
+#include "irq.h"
 #include "led.h"
 #include "matrix.h"
 #include "uart.h"
-#include "utils.h"
 
 void test_pixels() {
     rgb_color colors[8];
@@ -71,6 +71,7 @@ void display_img() {
 
 int main() {
     clocks_init();
+    irq_init();
     matrix_init();
 
     display_img();

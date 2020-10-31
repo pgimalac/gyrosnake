@@ -1,5 +1,4 @@
 #include "matrix.h"
-#include "gpio.h"
 #include "stm32l4xx.h"
 
 static void init_bank(int x) {
@@ -10,12 +9,9 @@ static void init_bank(int x) {
 }
 
 void matrix_init() {
-    // enable gpio A
-    enable_clock_gpio(RCC_AHB2ENR_GPIOAEN);
-    // enable gpio B
-    enable_clock_gpio(RCC_AHB2ENR_GPIOBEN);
-    // enable gpio C
-    enable_clock_gpio(RCC_AHB2ENR_GPIOCEN);
+    // enable gpio A, B and C
+    SET_BIT(RCC->AHB2ENR,
+            RCC_AHB2ENR_GPIOAEN | RCC_AHB2ENR_GPIOBEN | RCC_AHB2ENR_GPIOCEN);
 
     // set PC5 as output and high speed
     GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE5) | GPIO_MODER_MODE5_0;

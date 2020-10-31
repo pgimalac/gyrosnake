@@ -5,7 +5,7 @@ void uart_init() {
     CLEAR_BIT(USART1->CR1, USART_CR1_UE);
 
     // enable the clock of gpio b
-    enable_clock_gpio(RCC_AHB2ENR_GPIOBEN);
+    SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOBEN);
 
     // set TX as USART
     GPIOB->MODER = (GPIOB->MODER & ~GPIO_MODER_MODE6_Msk) | GPIO_MODER_MODE6_1;

@@ -1,8 +1,6 @@
 #ifndef __LED_H__
 #define __LED_H__
 
-#include "gpio.h"
-
 void led_init();
 
 void led_b_on();
