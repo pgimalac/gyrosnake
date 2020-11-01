@@ -5,7 +5,7 @@
 extern uint32_t *_stack;
 extern void _start();
 
-void *vector_table[] = {
+void *vector_table[] __attribute__((aligned(256))) = {
     // Stack and Reset Handler
     &_stack, /* Top of stack */
     _start,  /* Reset handler */
@@ -117,5 +117,5 @@ void *vector_table[] = {
 };
 
 void irq_init() { // Relocate VTOR table
-    SCB->VTOR = (uint32_t)vector_table;
+    SCB->VTOR = (uint32_t)&vector_table;
 }
