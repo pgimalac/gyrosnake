@@ -65,13 +65,6 @@ void display_img() {
     while (1) {
         for (int i = 0; i < 8; i++) {
             mat_set_row(i, img[i]);
-
-            // for debug purpose
-            if (READ_BIT(GPIOC->IDR, GPIO_IDR_ID13)) {
-                led_g_off();
-            } else {
-                led_g_on();
-            }
             sleep(10000);
         }
     }

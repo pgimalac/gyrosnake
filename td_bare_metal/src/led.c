@@ -28,3 +28,13 @@ void led_y_on() {
 void led_g_on() { SET_BIT(GPIOB->BSRR, GPIO_BSRR_BS14); }
 
 void led_g_off() { SET_BIT(GPIOB->BSRR, GPIO_BSRR_BR14); }
+
+uint32_t led_g_status() { return READ_BIT(GPIOB->ODR, GPIO_ODR_OD14); }
+
+void led_g_toggle() {
+    if (led_g_status()) {
+        led_g_off();
+    } else {
+        led_g_on();
+    }
+}

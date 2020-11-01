@@ -1,6 +1,7 @@
 #include "irq.h"
 #include "handlers.h"
 #include "stm32l4xx.h"
+#include <stdint.h>
 
 extern uint32_t *_stack;
 extern void _start();
@@ -117,5 +118,5 @@ void *vector_table[] __attribute__((aligned(512))) = {
 };
 
 void irq_init() { // Relocate VTOR table
-    SCB->VTOR = (uint32_t)&vector_table;
+    SCB->VTOR = (uint32_t)vector_table;
 }

@@ -1,4 +1,5 @@
 #include "buttons.h"
+#include "led.h"
 #include "stm32l4xx.h"
 
 // button on PC13
@@ -15,8 +16,8 @@ void button_init() {
 
     // interrupt on falling edge
     SET_BIT(EXTI->FTSR1, EXTI_FTSR1_FT13);
-    // and interrupt on rising edge
-    SET_BIT(EXTI->RTSR1, EXTI_RTSR1_RT13);
+    // // and interrupt on rising edge
+    // SET_BIT(EXTI->RTSR1, EXTI_RTSR1_RT13);
 
     // enable interrupts for PX13
     SET_BIT(EXTI->IMR1, EXTI_IMR1_IM13);
@@ -25,4 +26,12 @@ void button_init() {
 
     // trigger the interrupt ?
     // SET_BIT(EXTI->SWIER1, EXTI_SWIER1_SWI13);
+}
+
+void EXTI15_10_IRQHandler() {
+    // clear interrupt
+    SET_BIT(EXTI->PR1, EXTI_PR1_PIF13);
+
+    // toggle green led
+    led_g_toggle();
 }
