@@ -1,11 +1,6 @@
 #include "irq.h"
 #include "handlers.h"
-
-#define VTOR (*(volatile uint32_t *)0xE000ED08)
-#define NVIC_ISER (*(volatile uint32_t *)0xE000E100)
-#define NVIC_ICER (*(volatile uint32_t *)0xE000E180)
-#define NVIC_ISPR (*(volatile uint32_t *)0xE000E200)
-#define NVIC_ICPR (*(volatile uint32_t *)0xE000E280)
+#include "stm32l4xx.h"
 
 extern uint32_t *_stack;
 extern void _start();
@@ -122,5 +117,5 @@ void *vector_table[] = {
 };
 
 void irq_init() { // Relocate VTOR table
-    VTOR = (uint32_t)vector_table;
+    SCB->VTOR = (uint32_t)vector_table;
 }

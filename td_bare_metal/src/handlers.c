@@ -1,9 +1,10 @@
 #include "handlers.h"
 #include "irq.h"
+#include "stm32l4xx.h"
 
 #define MAKE_DEFAULT_HANDLER(x)                                                \
     void __attribute__((weak)) x(void) {                                       \
-        disable_irq();                                                         \
+        __disable_irq();                                                       \
         do {                                                                   \
         } while (1);                                                           \
     }

@@ -7,15 +7,22 @@ void button_init() {
     // enable GPIOC clock
     SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOCEN);
 
-    // set pin 13 as output
+    // set gpio c pin 13 as input
     CLEAR_BIT(GPIOC->MODER, GPIO_MODER_MODE13_Msk);
+
+    // set PC13 as the input source for the interrupt
+    SET_BIT(SYSCFG->EXTICR[3], SYSCFG_EXTICR4_EXTI13_PC);
+
+    // interrupt on falling edge
+    SET_BIT(EXTI->FTSR1, EXTI_FTSR1_FT13);
+    // and interrupt on rising edge
+    SET_BIT(EXTI->RTSR1, EXTI_RTSR1_RT13);
 
     // enable interrupts for PX13
     SET_BIT(EXTI->IMR1, EXTI_IMR1_IM13);
 
-    // set PC13 as the input source for the interrupt
-    SET_BIT(SYSCFG->EXTICR4, SYSCFG_EXTICR4_EXTI13_PC);
+    NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-    // interrupt on falling edge
-    SET_BIT(EXTI->FTSR1, EXTI_FTSR1_FT13);
+    // trigger the interrupt ?
+    // SET_BIT(EXTI->SWIER1, EXTI_SWIER1_SWI13);
 }

@@ -3,10 +3,12 @@
 #include "stm32l4xx.h"
 
 void led_init() {
+    // green led
     SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOBEN);
     GPIOB->MODER =
         (GPIOB->MODER & ~GPIO_MODER_MODE14_Msk) | GPIO_MODER_MODE14_0;
 
+    // yellow and blue led
     SET_BIT(RCC->AHB2ENR, RCC_AHB2ENR_GPIOCEN);
     CLEAR_BIT(GPIOC->MODER, GPIO_MODER_MODE9_Msk);
 }

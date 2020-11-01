@@ -5,6 +5,4 @@
 
 void irq_init();
 
-#define disable_irq() asm volatile("cpsid i")
-
 #endif
