@@ -45,10 +45,10 @@ void test_pixels() {
     }
 }
 
-extern const uint8_t _binary_image_raw_start;
+extern const uint8_t _binary_bins_image_raw_start;
 
 void display_img() {
-    const uint8_t *raw = &_binary_image_raw_start;
+    const uint8_t *raw = &_binary_bins_image_raw_start;
 
     rgb_color img[8][8];
     for (int i = 0; i < 8; i++) {
@@ -75,6 +75,7 @@ int main() {
 
     clocks_init();
 
+    uart_init(38400);
     matrix_init();
     led_init();
     button_init();

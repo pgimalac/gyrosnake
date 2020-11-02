@@ -9,6 +9,9 @@ OBJCOPY = $(CROSSCOMPILE)objcopy
 
 DIRS = src .
 
+IMAGE = bins/image.raw
+IMAGE_OBJ = $(IMAGE:%.raw=%.o)
+
 DEVICE = STM32L475VG
 DEVICE_GEN = STM32L475xx
 
@@ -27,7 +30,7 @@ SRCS_s = $(foreach DIR, $(DIRS), $(wildcard $(DIR)/*.s))
 SRCS_S = $(foreach DIR, $(DIRS), $(wildcard $(DIR)/*.S))
 DEPS = $(SRCS_c:%.c=%.d)
 # objs_gen are the objects we can delete (needed because we don't have clocks.c)
-OBJS_GEN = $(SRCS_c:%.c=%.o) $(SRCS_s:%.s=%.o) $(SRCS_S:%.S=%.o) image.o
+OBJS_GEN = $(SRCS_c:%.c=%.o) $(SRCS_s:%.s=%.o) $(SRCS_S:%.S=%.o) $(IMAGE_OBJ)
 OBJS = $(OBJS_GEN) src/clocks.o
 
 EXE = main
@@ -59,7 +62,7 @@ clean-all: clean
 
 re: clean-all $(IMG)
 
-image.o: image.raw
+$(IMAGE_OBJ): $(IMAGE)
 	$(OBJCOPY) -I binary -O elf32-littlearm -B armv7 $< $@
 
 .PHONY: gdb gdb_server clean re

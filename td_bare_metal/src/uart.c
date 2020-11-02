@@ -1,6 +1,6 @@
 #include "uart.h"
 
-void uart_init() {
+void uart_init(int baudrate) {
     // disable UART1
     CLEAR_BIT(USART1->CR1, USART_CR1_UE);
 
@@ -28,8 +28,8 @@ void uart_init() {
     CLEAR_BIT(RCC->APB2RSTR, RCC_APB2RSTR_USART1RST);
 
     // set serial port speed
-    // clock freq = 80MHz, baud = 115200 => USARTDIV = 80000000 / 115200 = 694
-    const uint32_t baud = 80000000 / 115200;
+    // clock freq = 80MHz, USARTDIV = 80000000 / baud
+    const uint32_t baud = 80000000 / baudrate;
     USART1->BRR = (uint16_t)baud;
 
     // oversampling
