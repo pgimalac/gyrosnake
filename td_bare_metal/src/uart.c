@@ -45,9 +45,14 @@ void uart_init(int baudrate) {
     // 1 stop bit
     // CLEAR_BIT(USART1->CR2, USART_CR2_STOP);
 
-    // enable USART, sender and receiver
     USART1->CR2 = 0;
+    // enable USART1 IRQ
     NVIC_EnableIRQ(USART1_IRQn);
+
+    // enable error interrupt
+    USART1->CR3 = USART_CR3_EIE;
+
+    // enable USART, sender, receiver and RXNE interrupt
     USART1->CR1 = USART_CR1_RXNEIE | USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
 }
 
@@ -57,24 +62,16 @@ void uart_putchar(uint8_t c) {
     } while (!READ_BIT(USART1->ISR, USART_ISR_TXE));
 
     USART1->TDR = c;
-
-    // do {
-    // } while (!READ_BIT(USART1->ISR, USART_ISR_TC));
 }
 
 uint8_t uart_getchar() {
     // reference manual page 1343
-    while (!READ_BIT(USART1->ISR, USART_ISR_RXNE)) {
-    }
 
-    if (READ_BIT(USART1->ISR, USART_ISR_ORE | USART_ISR_FE)) {
-        counter = -1;
-        // returns != 0xFF and counter == -1 : it will be ignored
-        return 0;
-    }
+    // no need to wait: we only call uart_getchar with the interrupt handler
+    // while (!READ_BIT(USART1->ISR, USART_ISR_RXNE)) {
+    // }
 
-    uint32_t c = USART1->RDR;
-    return (uint8_t)c;
+    return (uint8_t)USART1->RDR;
 }
 
 void uart_puts(const uint8_t *s) {
@@ -103,6 +100,13 @@ void uart_gets(uint8_t *s, size_t size) {
 }
 
 void USART1_IRQHandler() {
+    if (READ_BIT(USART1->ISR, USART_ISR_ORE | USART_ISR_FE | USART_ISR_NE)) {
+        USART1->RDR;
+        SET_BIT(USART1->ICR, USART_ICR_ORECF | USART_ICR_FECF | USART_ICR_NECF);
+        counter = -1;
+        return;
+    }
+
     uint8_t c = uart_getchar();
 
     if (c == 0xFF) {
