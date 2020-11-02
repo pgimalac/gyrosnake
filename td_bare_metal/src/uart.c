@@ -98,10 +98,11 @@ void uart_gets(uint8_t *s, size_t size) {
     s[i] = 0;
 }
 
-static int counter = -1;
-
 void USART1_IRQHandler() {
+    static int counter = -1;
+
     uint8_t c = uart_getchar();
+
     if (c == 0xFF) {
         counter = 0;
     } else {
@@ -109,7 +110,7 @@ void USART1_IRQHandler() {
             return;
         }
 
-        uint8_t *pixel = (uint8_t *)&matrix[counter / 24][counter / 3];
+        uint8_t *pixel = (uint8_t *)&matrix[counter / 24][(counter % 24) / 3];
         pixel[counter % 3] = c;
 
         if (counter == 191) {
