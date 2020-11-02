@@ -12,7 +12,7 @@ void sleep(uint32_t ns) {
     // so each loop turn takes 50ns (or 62 ?)
 
     // but after a hand made measure, 200 is better (because of gdb ?)
-    // better wait to much than not enough so we use 50
+    // better wait too much than not enough so we use 50
     for (uint32_t i = 0; i < ns / 50 + 1; i++)
         asm volatile("nop");
 }

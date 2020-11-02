@@ -4,6 +4,8 @@
 #include "stm32l4xx.h"
 #include "utils.h"
 
+extern rgb_color matrix[8][8];
+
 void matrix_init();
 
 #define SB(x) SET_BIT(GPIOC->BSRR, (x) ? GPIO_BSRR_BS5 : GPIO_BSRR_BR5)

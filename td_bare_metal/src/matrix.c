@@ -1,6 +1,8 @@
 #include "matrix.h"
 #include "stm32l4xx.h"
 
+rgb_color matrix[8][8];
+
 static void init_bank(int x) {
     for (int i = 0; i < 24; i++) {
         send_byte((uint8_t)-1, x);

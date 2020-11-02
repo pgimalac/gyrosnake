@@ -1,4 +1,5 @@
 #include "uart.h"
+#include "matrix.h"
 
 void uart_init(int baudrate) {
     // disable UART1
@@ -42,9 +43,9 @@ void uart_init(int baudrate) {
     // CLEAR_BIT(USART1->CR2, USART_CR2_STOP);
 
     // enable USART, sender and receiver
-    // SET_BIT(USART1->CR1, USART_CR1_TE | USART_CR1_RE | USART_CR1_UE);
     USART1->CR2 = 0;
-    USART1->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
+    NVIC_EnableIRQ(USART1_IRQn);
+    USART1->CR1 = USART_CR1_RXNEIE | USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
 }
 
 void uart_putchar(uint8_t c) {
@@ -95,4 +96,26 @@ void uart_gets(uint8_t *s, size_t size) {
         }
     }
     s[i] = 0;
+}
+
+static int counter = -1;
+
+void USART1_IRQHandler() {
+    uint8_t c = uart_getchar();
+    if (c == 0xFF) {
+        counter = 0;
+    } else {
+        if (counter == -1) {
+            return;
+        }
+
+        uint8_t *pixel = (uint8_t *)&matrix[counter / 24][counter % 8];
+        pixel[counter % 3] = c;
+
+        if (counter == 191) {
+            counter = -1;
+        } else {
+            counter++;
+        }
+    }
 }
