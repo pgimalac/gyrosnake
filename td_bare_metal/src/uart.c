@@ -109,7 +109,7 @@ void USART1_IRQHandler() {
             return;
         }
 
-        uint8_t *pixel = (uint8_t *)&matrix[counter / 24][counter % 8];
+        uint8_t *pixel = (uint8_t *)&matrix[counter / 24][counter / 3];
         pixel[counter % 3] = c;
 
         if (counter == 191) {
