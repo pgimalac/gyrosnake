@@ -1,6 +1,9 @@
 #include "uart.h"
 #include "matrix.h"
 
+static rgb_color buffer[8][8];
+static int counter = -1;
+
 void uart_init(int baudrate) {
     // disable UART1
     CLEAR_BIT(USART1->CR1, USART_CR1_UE);
@@ -65,8 +68,9 @@ uint8_t uart_getchar() {
     }
 
     if (READ_BIT(USART1->ISR, USART_ISR_ORE | USART_ISR_FE)) {
-        while (1) {
-        }
+        counter = -1;
+        // returns != 0xFF and counter == -1 : it will be ignored
+        return 0;
     }
 
     uint32_t c = USART1->RDR;
@@ -99,8 +103,6 @@ void uart_gets(uint8_t *s, size_t size) {
 }
 
 void USART1_IRQHandler() {
-    static int counter = -1;
-
     uint8_t c = uart_getchar();
 
     if (c == 0xFF) {
@@ -110,11 +112,19 @@ void USART1_IRQHandler() {
             return;
         }
 
-        uint8_t *pixel = (uint8_t *)&matrix[counter / 24][(counter % 24) / 3];
+        uint8_t *pixel = (uint8_t *)&buffer[counter / 24][(counter % 24) / 3];
         pixel[counter % 3] = c;
 
         if (counter == 191) {
             counter = -1;
+
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    matrix[i][j].r = buffer[i][j].r;
+                    matrix[i][j].g = buffer[i][j].g;
+                    matrix[i][j].b = buffer[i][j].b;
+                }
+            }
         } else {
             counter++;
         }
