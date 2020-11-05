@@ -110,6 +110,10 @@ void deactivate_rows() {
     ROW5(0);
     ROW6(0);
     ROW7(0);
+
+    // sans le sleep (ou avec un sleep plus court)
+    // on a un très léger clignotement de la ligne qui était allumée
+    sleep(10000);
 }
 
 void activate_row(int row) {
@@ -147,9 +151,9 @@ void mat_set_row(int row, const rgb_color *val) {
         send_byte(val[i].g, 1);
         send_byte(val[i].r, 1);
     }
-    pulse_LAT();
 
     deactivate_rows();
+    pulse_LAT();
     activate_row(row);
 }
 
