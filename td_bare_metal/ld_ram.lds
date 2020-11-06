@@ -7,6 +7,11 @@ MEMORY {
 ENTRY(_start)
 
 SECTIONS {
+    .vect_table :
+    {
+        src/irq.o(*vectors*)
+    } >flash
+
     .text :
     {
         ./crt0.o(.text)
