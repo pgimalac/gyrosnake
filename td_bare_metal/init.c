@@ -1,5 +1,5 @@
 extern char _bend, _bstart;
-extern char _data_lma, _data_vma, _data_lma_end;
+extern char _data_lma, _data_lma_end, _data_vma;
 
 void init_bss() {
     char *dst = &_bstart;
@@ -7,10 +7,7 @@ void init_bss() {
         *dst++ = 0;
 }
 
-void copy_data() {
-    char *src = &_data_lma;
-    char *dst = &_data_vma;
-
-    while (src < &_data_lma_end)
+void memcopy(char *src, char *srcend, char *dst) {
+    while (src < srcend)
         *dst++ = *src++;
 }

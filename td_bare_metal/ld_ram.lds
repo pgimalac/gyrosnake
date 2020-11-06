@@ -10,13 +10,19 @@ SECTIONS {
     .vect_table :
     {
         src/irq.o(*vectors*)
+    } >sram1 AT>flash
+
+    .init :
+    {
+        ./crt0.o(.text);
+        ./init.o(.text);
+        *(.init);
     } >flash
 
     .text :
     {
-        ./crt0.o(.text)
-        *(.text)
-    } >flash
+        *(.text);
+    } >sram1 AT>flash
 
     .rodata :
     {
@@ -25,9 +31,7 @@ SECTIONS {
 
     .data :
     {
-        _data = . ;
         *(.data);
-        _edata = . ;
     } >sram1 AT>flash
 
     .bss :
@@ -39,6 +43,15 @@ SECTIONS {
 }
 
 _stack = ORIGIN(sram2) + LENGTH(sram2);
+
+_vtor_lma = LOADADDR(.vect_table);
+_vtor_lma_end = LOADADDR(.vect_table) + SIZEOF(.vect_table);
+_vtor_vma = ADDR(.vect_table);
+
+_text_lma = LOADADDR(.text);
+_text_lma_end = LOADADDR(.text) + SIZEOF(.text);
+_text_vma = ADDR(.text);
+
 _data_lma = LOADADDR(.data);
 _data_lma_end = LOADADDR(.data) + SIZEOF(.data);
 _data_vma = ADDR(.data);
