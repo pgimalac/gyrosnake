@@ -11,19 +11,19 @@ SECTIONS {
     {
         ./crt0.o(.text)
         *(.text)
-    } >sram1
+    } >flash
 
     .rodata :
     {
         *(.rodata*);
-    } >sram1
+    } >flash
 
     .data :
     {
         _data = . ;
         *(.data);
         _edata = . ;
-    } >sram1
+    } >sram1 AT>flash
 
     .bss :
     {
@@ -34,3 +34,6 @@ SECTIONS {
 }
 
 _stack = ORIGIN(sram2) + LENGTH(sram2);
+_data_lma = LOADADDR(.data);
+_data_lma_end = LOADADDR(.data) + SIZEOF(.data);
+_data_vma = ADDR(.data);

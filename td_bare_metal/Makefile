@@ -31,7 +31,7 @@ SRCS_S = $(foreach DIR, $(DIRS), $(wildcard $(DIR)/*.S))
 DEPS = $(SRCS_c:%.c=%.d)
 # objs_gen are the objects we can delete (needed because we don't have clocks.c)
 OBJS_GEN = $(SRCS_c:%.c=%.o) $(SRCS_s:%.s=%.o) $(SRCS_S:%.S=%.o) $(IMAGE_OBJ)
-OBJS = $(OBJS_GEN) src/clocks.o
+OBJS = $(OBJS_GEN)
 
 EXE = main
 ELF = $(EXE).elf
