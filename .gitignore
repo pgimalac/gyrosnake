@@ -1,3 +1,5 @@
 *.o
 a.out
 *.elf
+*.d
+*.py
