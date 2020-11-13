@@ -2,9 +2,6 @@
 .syntax unified
 .cpu cortex-m4
 .global _start
-.global _data_lma
-.global _data_vma
-.global _data_lma_end
 
 .thumb_func
 _start:
